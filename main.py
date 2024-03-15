@@ -12,13 +12,9 @@ DOWNLOAD_FOLDER = './assets'
 def hello_world():
     return "Hello, world!"
 
-@app.route('/download', methods=['GET'])
-@cross_origin()
 def download():
     youtube_url = request.args.get('youtubeURL')
 
-    if youtube_url:
-        ydl_opts = {
             'format': 'bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
@@ -32,7 +28,8 @@ def download():
         }
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            
+            ydl.download([youtube_url])
+
         # Assuming only one MP3 file is downloaded
         mp3_file_path = os.path.join(DOWNLOAD_FOLDER, os.listdir(DOWNLOAD_FOLDER)[0])
 
